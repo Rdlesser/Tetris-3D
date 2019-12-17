@@ -34,6 +34,10 @@ public class PlayfieldView : TetrisElement
             bottomPlane.transform.position = new Vector3(position.x + (float) gridSizeX / 2,
                                                          position.y, 
                                                          position.z + (float) gridSizeZ / 2);
+            
+            // Retile Material
+            bottomPlane.GetComponent<MeshRenderer>().sharedMaterial.mainTextureScale =
+                new Vector2(gridSizeX, gridSizeZ);
         }
     }
 
