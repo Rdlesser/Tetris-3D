@@ -1,11 +1,15 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using Playfield_scripts;
+using UnityEditor;
 using UnityEngine;
 
 // Contains all views related to the app.
 public class TetrisView : TetrisElement
 {
     // Reference to the Playfield View
-    [SerializeField] private PlayfieldView PlayfieldView;
+    [SerializeField] private PlayfieldView _playfieldView;
 
+    public void OnGridSizeChanged()
+    {
+        SceneView.RepaintAll();
+    }
 }

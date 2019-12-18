@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 // Base class for all elements in this application.
 public class TetrisElement : MonoBehaviour
