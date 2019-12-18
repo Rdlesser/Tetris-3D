@@ -7,8 +7,6 @@ using UnityEngine;
 public class TetrisController : TetrisElement
 {
 
-    public TetrisView TetrisView;
-
     // Handles the win condition
     public void OnGameOver()
     {
@@ -17,6 +15,6 @@ public class TetrisController : TetrisElement
 
     public void OnGridSizeChanged()
     {
-        TetrisView.OnGridSizeChanged();
+        App.view.OnGridSizeChanged();
     }
 }
