@@ -244,7 +244,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cameraController: {fileID: 704345247}
---- !u!1001 &465561243
+--- !u!1001 &378251930
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -264,7 +264,7 @@ PrefabInstance:
     - target: {fileID: 8034153604906430785, guid: d6e6a65267e9340f7a3dd6bfc0fb1873,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 11
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 8034153604906430785, guid: d6e6a65267e9340f7a3dd6bfc0fb1873,
         type: 3}
