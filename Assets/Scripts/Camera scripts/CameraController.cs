@@ -4,57 +4,31 @@ using UnityEngine;
 
 public class CameraController : TetrisElement
 {
-    // Target for the rotation around the Y Axis
-    [SerializeField] private Transform targetYRotation;
-    // Target for the rotation around the X Axis
-    [SerializeField] private Transform targetXZRotation;
-
-    [SerializeField] private Transform cameraTransform;
+    
+    [SerializeField] private CameraView _cameraView;
     
     [SerializeField] private float cameraSensitivity = 4.0f;
-
-
-    private Vector3 _lastTouchPosition;
-
     
-    // Start is called before the first frame update
-    void Awake()
-    {
-        
-    }
+    
 
     // Update is called once per frame
     void Update()
     {
-        cameraTransform.LookAt(targetYRotation);
-        if (Input.GetMouseButton(0))
-        {
-            _lastTouchPosition = Input.mousePosition;
-            Orbit();
-        }
 
-        
+
     }
 
-    private void Orbit()
+    private void MoveCamera(Transform targetXZRotation, float locationX, float locationY)
     {
         
-        Vector3 rotationDelta = Input.mousePosition - _lastTouchPosition;
-        float angleY = Input.GetAxis("Mouse Y") * -cameraSensitivity;
-        float angleX = Input.GetAxis("Mouse X") * cameraSensitivity;
+        float angleY = locationY * -cameraSensitivity;
+        float angleX = locationX * cameraSensitivity;
         
-        // X Axis
-        var transform1 = targetXZRotation.transform;
-        Vector3 angles = transform1.eulerAngles;
+        Vector3 angles = targetXZRotation.eulerAngles;
         angles.x += angleY;
         angles.x = ClampAngle(angles.x, -70f, 70f);
-        transform1.eulerAngles = angles;
+        _cameraView.RotateCamera(angles, angleX);
 
-        // Y Axis
-        targetYRotation.RotateAround(targetYRotation.position, Vector3.up, angleX);
-        _lastTouchPosition = Input.mousePosition;
-        
-        
     }
 
     private float ClampAngle(float angle, float from, float to)
@@ -70,5 +44,10 @@ public class CameraController : TetrisElement
         }
 
         return Mathf.Min(angle, to);
+    }
+
+    public void OnCameraMoveAttempt(Transform targetXZRotation, float locationX, float locationY)
+    {
+        MoveCamera(targetXZRotation, locationX, locationY);
     }
 }

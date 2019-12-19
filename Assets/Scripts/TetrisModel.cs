@@ -14,7 +14,7 @@ public class TetrisModel : TetrisElement
 
     private void OnValidate()
     {
-        App.controller.OnGridSizeChanged();
+        App.Notify(TetrisNotifications.GridResize, this);
     }
 
 }

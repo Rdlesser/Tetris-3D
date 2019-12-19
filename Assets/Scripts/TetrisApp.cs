@@ -14,6 +14,12 @@ public class TetrisApp : MonoBehaviour
     public TetrisView view;
     public TetrisController controller;
 
-    // Init things here
-    void Start() { }
+    // Notify the controller and delegate the notification data
+    // This method can easily be found because every class is “BounceElement” and has an “app” 
+    // instance.
+    public void Notify(string eventString, Object target, params object[] data)
+    {
+        controller.OnNotification(eventString, target, data);
+        
+    }
 }
