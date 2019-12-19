@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Camera_scripts;
 using Playfield_scripts;
 using UnityEngine;
 
@@ -20,7 +21,7 @@ public class TetrisController : TetrisElement
         App.view.OnGridSizeChanged();
     }
 
-    public void OnNotification(string eventString, Object target, object[] data)
+    public void OnNotification(TetrisNotifications eventString, Object target, object[] data)
     {
         switch (eventString)
         {

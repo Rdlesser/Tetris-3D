@@ -1,53 +1,46 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class CameraController : TetrisElement
+namespace Camera_scripts
 {
-    
-    [SerializeField] private CameraView _cameraView;
-    
-    [SerializeField] private float cameraSensitivity = 4.0f;
-    
-    
-
-    // Update is called once per frame
-    void Update()
+    public class CameraController : TetrisElement
     {
-
-
-    }
-
-    private void MoveCamera(Transform targetXZRotation, float locationX, float locationY)
-    {
+    
+        [SerializeField] private CameraView cameraView;
+    
+        [SerializeField] private float cameraSensitivity = 4.0f;
         
-        float angleY = locationY * -cameraSensitivity;
-        float angleX = locationX * cameraSensitivity;
-        
-        Vector3 angles = targetXZRotation.eulerAngles;
-        angles.x += angleY;
-        angles.x = ClampAngle(angles.x, -70f, 70f);
-        _cameraView.RotateCamera(angles, angleX);
 
-    }
-
-    private float ClampAngle(float angle, float from, float to)
-    {
-        if (angle < 0)
+        private void MoveCamera(Transform targetXZRotation, float locationX, float locationY)
         {
-            angle += 360;
+        
+            float angleY = locationY * -cameraSensitivity;
+            float angleX = locationX * cameraSensitivity;
+        
+            Vector3 angles = targetXZRotation.eulerAngles;
+            angles.x += angleY;
+            angles.x = ClampAngle(angles.x, -70f, 70f);
+            cameraView.RotateCamera(angles, angleX);
+
         }
 
-        if (angle > 180f)
+        private float ClampAngle(float angle, float from, float to)
         {
-            return Mathf.Max(angle, 360 + from);
+            if (angle < 0)
+            {
+                angle += 360;
+            }
+
+            if (angle > 180f)
+            {
+                return Mathf.Max(angle, 360 + from);
+            }
+
+            return Mathf.Min(angle, to);
         }
 
-        return Mathf.Min(angle, to);
-    }
-
-    public void OnCameraMoveAttempt(Transform targetXZRotation, float locationX, float locationY)
-    {
-        MoveCamera(targetXZRotation, locationX, locationY);
+        public void OnCameraMoveAttempt(Transform targetXZRotation, float locationX, float locationY)
+        {
+            MoveCamera(targetXZRotation, locationX, locationY);
+        }
     }
 }
