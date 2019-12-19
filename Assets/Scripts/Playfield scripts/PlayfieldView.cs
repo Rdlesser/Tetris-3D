@@ -9,9 +9,10 @@ namespace Playfield_scripts
 
         public bool IsPositionInsideGrid(Vector3 position)
         {
-            bool isInside = (int) position.x >= 0 && (int) position.x < App.model.GridSizeX &&
-                            (int) position.z >= 0 && (int) position.y < App.model.GridSizeZ &&
-                            (int) position.y >= 0;
+            bool isInside = position.y >= 0 && 
+                            position.x >= 0 && position.x < App.model.GridSizeX && 
+                            position.z >= 0 && position.z < App.model.GridSizeZ;
+
             return isInside;
         }
 

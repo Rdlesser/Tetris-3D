@@ -18,12 +18,10 @@ public class TetrisBlockView : TetrisElement
         {
             if (IsValidMove())
             {
-                Debug.LogError("It is a vlid move");
                 transform.position += Vector3.down;
             }
             else
             {
-                Debug.LogError("It is not a valid move");
                 //Todo: Delete layer if possible
                 enabled = false;
                 
@@ -38,8 +36,8 @@ public class TetrisBlockView : TetrisElement
     {
         foreach (Transform child in transform)
         {
-            Vector3 position = App.model.RoundUpVector(child.position + Vector3.down);
-            if (!App.view.IsPositionInsideGrid(position))
+            // Vector3 position = App.model.RoundUpVector(child.position + Vector3.down);
+            if (!App.view.IsPositionInsideGrid(child.position + Vector3.down))
             {
                 return false;
             }
