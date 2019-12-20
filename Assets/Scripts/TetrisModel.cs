@@ -8,23 +8,27 @@ using Object = UnityEngine.Object;
 public class TetrisModel : TetrisElement
 {
 
+    [Header("Grid Size Config")]
     // Data
-    public int GridSizeX = 7;
-    public int GridSizeY = 10;
-    public int GridSizeZ = 7;
+    public int gridSizeX = 7;
+    public int gridSizeY = 10;
+    public int gridSizeZ = 7;
+
+    [Header("Tetris Blcok Config")]
+    public TetrisBlockView[] tetrisBlocks;
     
     private Transform[,,] _theGrid;
     
     private void Start()
     {
-        _theGrid = new Transform[GridSizeX, GridSizeY, GridSizeZ];
+        _theGrid = new Transform[gridSizeX, gridSizeY, gridSizeZ];
         
         // Null out the grid
-        for (int x = 0; x < GridSizeX; x++)
+        for (int x = 0; x < gridSizeX; x++)
         {
-            for (int y = 0; y < GridSizeY; y++)
+            for (int y = 0; y < gridSizeY; y++)
             {
-                for (int z = 0; z < GridSizeZ; z++)
+                for (int z = 0; z < gridSizeZ; z++)
                 {
                     _theGrid[x, y, z] = null;
                 }
@@ -45,20 +49,21 @@ public class TetrisModel : TetrisElement
     // }
 
 
-    public void UpdateGrid(TetrisBlockView tetrisBlock)
+    public void UpdateGrid(TetrisBlockView tetrisBlock, Vector3 updateDirection)
     {
         foreach (TetrisCubeView child in tetrisBlock.ChildCubes)
         {
             // Delete former locations of the cubes inside the grid
             var childTransform = child.transform;
             var childPosition = childTransform.position;
-            Vector3 lastPosition = childPosition + Vector3.up;
-            if (lastPosition.y < GridSizeY)
+            var lastPosition = childPosition - updateDirection;
+            if (lastPosition.y < gridSizeY)
             {
                 _theGrid[(int)lastPosition.x, (int)lastPosition.y, (int)lastPosition.z] = null;
             }
 
-            if (childPosition.y <= GridSizeY)
+            // Update the new position
+            if (childPosition.y <= gridSizeY)
             {
                 _theGrid[(int) childPosition.x, (int)childPosition.y, (int)childPosition.z] = childTransform;
             }
@@ -67,23 +72,23 @@ public class TetrisModel : TetrisElement
         }
     }
 
-    public bool IsPositionOccupied(Transform transform)
+    public bool IsPositionOccupied(Transform transformToCheck, Vector3 direction)
     {
-        if (transform.position.y > GridSizeY)
+        if (transformToCheck.position.y > gridSizeY)
         {
             return false;
         }
 
-        Vector3 nextTransformPosition = transform.position + Vector3.down;
-        if (nextTransformPosition.y >= GridSizeY)
+        var nextTransformPosition = transformToCheck.position + direction;
+        if (nextTransformPosition.y >= gridSizeY)
         {
             return false;
         }
 
-        Transform occupentTransform = _theGrid[(int) nextTransformPosition.x,
+        var occupantTransform = _theGrid[(int) nextTransformPosition.x,
                                                (int) nextTransformPosition.y, 
                                                (int) nextTransformPosition.z];
-        return occupentTransform != null && occupentTransform.parent != transform.parent;
+        return occupantTransform != null && occupantTransform.parent != transformToCheck.parent;
     }
     
 }

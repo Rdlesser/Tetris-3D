@@ -51,7 +51,7 @@ public class TetrisController : TetrisElement
                 if (target.GetType() == typeof(TetrisBlockView))
                 {
                     TetrisBlockView tetrisBlock = (TetrisBlockView) target;
-                    App.model.UpdateGrid(tetrisBlock);
+                    App.model.UpdateGrid(tetrisBlock, Vector3.down);
                 }
                 break;
         }

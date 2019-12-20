@@ -20,7 +20,7 @@ public class TetrisBlockView : TetrisElement
         // If it is time to drop position down
         if (Time.time - _previousFallTime > _fallTime)
         {
-            if (IsValidMove())
+            if (IsValidMove(Vector3.down))
             {
                 transform.position += Vector3.down;
 
@@ -38,11 +38,11 @@ public class TetrisBlockView : TetrisElement
         }
     }
 
-    private bool IsValidMove()
+    private bool IsValidMove(Vector3 direction)
     {
         foreach (TetrisCubeView child in childCubes)
         {
-            if (!child.IsValidMove())
+            if (!child.IsValidMove(direction))
             {
                 return false;
             }
