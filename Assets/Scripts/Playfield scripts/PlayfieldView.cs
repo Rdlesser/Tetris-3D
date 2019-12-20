@@ -7,7 +7,7 @@ namespace Playfield_scripts
     public class PlayfieldView : TetrisElement
     {
 
-        public bool IsPositionInsideGrid(Vector3 position)
+        public bool IsPositionInsidePlayfield(Vector3 position)
         {
             bool isInside = position.y >= 0 && 
                             position.x >= 0 && position.x < App.model.GridSizeX && 

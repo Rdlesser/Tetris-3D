@@ -8,6 +8,10 @@ public class TetrisBlockView : TetrisElement
 
     private float _previousFallTime;
     private float _fallTime = 1.0f;
+
+    [SerializeField] private TetrisCubeView[] childCubes;
+
+    public TetrisCubeView[] ChildCubes => childCubes;
     
 
     // Update is called once per frame
@@ -19,6 +23,8 @@ public class TetrisBlockView : TetrisElement
             if (IsValidMove())
             {
                 transform.position += Vector3.down;
+
+                App.Notify(TetrisNotifications.OnBlockMoveDown, this);
             }
             else
             {
@@ -34,10 +40,9 @@ public class TetrisBlockView : TetrisElement
 
     private bool IsValidMove()
     {
-        foreach (Transform child in transform)
+        foreach (TetrisCubeView child in childCubes)
         {
-            // Vector3 position = App.model.RoundUpVector(child.position + Vector3.down);
-            if (!App.view.IsPositionInsideGrid(child.position + Vector3.down))
+            if (!child.IsValidMove())
             {
                 return false;
             }

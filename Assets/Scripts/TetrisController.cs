@@ -46,6 +46,14 @@ public class TetrisController : TetrisElement
                     Debug.LogError("TetrisController.OnNotification received incompatible types in data or null");
                 }
                 break;
+            
+            case TetrisNotifications.OnBlockMoveDown:
+                if (target.GetType() == typeof(TetrisBlockView))
+                {
+                    TetrisBlockView tetrisBlock = (TetrisBlockView) target;
+                    App.model.UpdateGrid(tetrisBlock);
+                }
+                break;
         }
     }
 }

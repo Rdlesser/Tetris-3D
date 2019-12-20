@@ -13,11 +13,11 @@ public class TetrisView : TetrisElement
         SceneView.RepaintAll();
     }
 
-    public bool IsPositionInsideGrid(Vector3 position)
+    public bool IsPositionInsidePlayfield(Vector3 position)
     {
         if (playfieldView != null)
         {
-            return playfieldView.IsPositionInsideGrid(position);
+            return playfieldView.IsPositionInsidePlayfield(position);
         }
         
         Debug.LogError("No playfield set in TetrisView");
