@@ -1,4 +1,5 @@
-﻿using Playfield_scripts;
+﻿using System;
+using Playfield_scripts;
 using Tetris_Block_Scripts;
 using UnityEditor;
 using UnityEngine;
@@ -12,6 +13,31 @@ public class TetrisView : TetrisElement
     public void OnGridSizeChanged()
     {
         SceneView.RepaintAll();
+    }
+
+    private void Update()
+    {
+        OnArrowKeyInput();
+    }
+    
+    private void OnArrowKeyInput()
+    {
+        if (Input.GetKeyDown(KeyCode.LeftArrow))
+        {
+            App.Notify(TetrisNotifications.OnArrowKeyPressed, this, Vector3.left);
+        }
+        if (Input.GetKeyDown(KeyCode.RightArrow))
+        {
+            App.Notify(TetrisNotifications.OnArrowKeyPressed, this, Vector3.right);
+        }
+        if (Input.GetKeyDown(KeyCode.UpArrow))
+        {
+            App.Notify(TetrisNotifications.OnArrowKeyPressed, this, Vector3.forward);
+        }
+        if (Input.GetKeyDown(KeyCode.DownArrow))
+        {
+            App.Notify(TetrisNotifications.OnArrowKeyPressed, this, Vector3.back);
+        }
     }
 
     public bool IsPositionInsidePlayfield(Vector3 position)
@@ -28,5 +54,11 @@ public class TetrisView : TetrisElement
     public void SpawnNewBlock(TetrisBlockView blockToInstantiate, Vector3 position)
     {
         playfieldView.SpawnNewBlock(blockToInstantiate, position);
+    }
+
+
+    public void MoveCurrentBlockInDirection(Vector3 moveDirection)
+    {
+        playfieldView.MoveCurrentBlockInDirection(moveDirection);
     }
 }

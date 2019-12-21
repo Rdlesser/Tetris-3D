@@ -50,16 +50,20 @@ public class TetrisModel : TetrisElement
     // }
 
 
-    public void UpdateGrid(TetrisBlockView tetrisBlock, Vector3 updateDirection)
+    public void UpdateGrid(TetrisBlockView tetrisBlock, Vector3 moveDirection)
     {
         foreach (TetrisCubeView child in tetrisBlock.ChildCubes)
         {
-            // Delete former locations of the cubes inside the grid
+            // Get the child transform
             var childTransform = child.transform;
+            // Save the child's position
             var childPosition = childTransform.position;
-            var lastPosition = childPosition - updateDirection;
+            // Save the last location of the child
+            var lastPosition = childPosition - moveDirection;
+            // If the last position was inside the grid we can update the location
             if (lastPosition.y < gridSizeY)
             {
+                // Delete former location
                 _theGrid[(int)lastPosition.x, (int)lastPosition.y, (int)lastPosition.z] = null;
             }
 

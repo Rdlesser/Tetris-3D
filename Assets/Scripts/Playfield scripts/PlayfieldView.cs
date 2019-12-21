@@ -7,6 +7,8 @@ namespace Playfield_scripts
     public class PlayfieldView : TetrisElement
     {
 
+        private TetrisBlockView _currentMovingBlock;
+
         public bool IsPositionInsidePlayfield(Vector3 position)
         {
             bool isInside = position.y >= 0 && 
@@ -21,9 +23,14 @@ namespace Playfield_scripts
 
             position.y += blockToInstantiate.Height / 2;
             
-            TetrisBlockView newBlock = Instantiate(blockToInstantiate,
+            _currentMovingBlock = Instantiate(blockToInstantiate,
                                                    position,
                                                    Quaternion.identity);
+        }
+
+        public void MoveCurrentBlockInDirection(Vector3 moveDirection)
+        {
+            _currentMovingBlock.MoveBlock(moveDirection);
         }
     }
 }

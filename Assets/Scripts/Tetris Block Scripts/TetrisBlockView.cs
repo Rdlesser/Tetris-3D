@@ -27,7 +27,7 @@ namespace Tetris_Block_Scripts
                 {
                     transform.position += Vector3.down;
 
-                    App.Notify(TetrisNotifications.OnBlockMoveDown, this);
+                    App.Notify(TetrisNotifications.OnBlockMove, this, Vector3.down);
                 }
                 // The block's down movement is blocked by either another block or by the floor
                 else
@@ -41,6 +41,21 @@ namespace Tetris_Block_Scripts
             
                 _previousFallTime = Time.time;
             }
+            
+        }
+
+        public bool MoveBlock(Vector3 direction)
+        {
+            bool canMove = false;
+            if (IsValidMove(direction))
+            {
+                transform.position += direction;
+                canMove = true;
+                App.Notify(TetrisNotifications.OnBlockMove, this, direction);
+            }
+
+            return canMove;
+
         }
 
         private bool IsValidMove(Vector3 direction)

@@ -1,15 +1,23 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using Camera_scripts;
 using Playfield_scripts;
 using Tetris_Block_Scripts;
 using UnityEngine;
+using Object = UnityEngine.Object;
+using Random = UnityEngine.Random;
 
 // Controls the app workflow.
 public class TetrisController : TetrisElement
 {
 
     [SerializeField] private CameraController cameraController;
+
+    private void Start()
+    {
+        SpawnNewBlock();
+    }
 
     // Handles the win condition
     public void OnGameOver()
@@ -22,8 +30,9 @@ public class TetrisController : TetrisElement
         App.view.OnGridSizeChanged();
     }
     
-    public void SpawnNewBlock(TetrisBlockView[] availableBlocks)
+    public void SpawnNewBlock()
     {
+        TetrisBlockView[] availableBlocks = App.model.tetrisBlocks;
         var position = transform.position;
         Vector3 spawnPoint = new Vector3((int)(position.x + App.model.gridSizeX / 2.0f),
                                          (int)(position.y + App.model.gridSizeY),
@@ -62,22 +71,45 @@ public class TetrisController : TetrisElement
                 }
                 else
                 {
-                    Debug.LogError("TetrisController.OnNotification received incompatible types in data or null");
+                    Debug.LogError("TetrisController.OnNotification - Could not move camera. Received incompatible types in data or null");
                 }
                 break;
             
-            case TetrisNotifications.OnBlockMoveDown:
-                if (target.GetType() == typeof(TetrisBlockView))
+            case TetrisNotifications.OnBlockMove:
+                if (target != null &&
+                    target.GetType() == typeof(TetrisBlockView) &&
+                    data[0] != null &&
+                    data[0] is Vector3)
                 {
                     TetrisBlockView tetrisBlock = (TetrisBlockView) target;
-                    App.model.UpdateGrid(tetrisBlock, Vector3.down);
+                    Vector3 moveDirection = (Vector3) data[0];
+                    App.model.UpdateGrid(tetrisBlock, moveDirection);
+                }
+                else
+                {
+                    Debug.LogError("TetrisController.OnNotification - Could not move block down. Received incompatible type");
                 }
                 break;
             
             case TetrisNotifications.BlockMovementStopped:
-                SpawnNewBlock(App.model.tetrisBlocks);
+                SpawnNewBlock();
                 break;
+            
+            case TetrisNotifications.OnArrowKeyPressed:
+                if (data[0] != null &&
+                    data[0] is Vector3)
+                {
+                    Vector3 moveDirection = (Vector3) data[0];
+                    MoveCurrentBlockInDirection(moveDirection);
+                }
+                break;
+            
         }
+    }
+
+    private void MoveCurrentBlockInDirection(Vector3 moveDirection)
+    {
+        App.view.MoveCurrentBlockInDirection(moveDirection);
     }
 }
 
