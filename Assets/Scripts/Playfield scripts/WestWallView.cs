@@ -23,7 +23,7 @@ namespace Playfield_scripts
             }
 
             // Retile Material
-            GetComponent<MeshRenderer>().sharedMaterial.mainTextureScale = new Vector2(App.model.gridSizeX,
+            GetComponent<MeshRenderer>().sharedMaterial.mainTextureScale = new Vector2(App.model.gridSizeZ,
                                                                                        App.model.gridSizeY);
         }
         

@@ -9,17 +9,16 @@ namespace Playfield_scripts
         private void OnDrawGizmos()
         {
             // Resize bottom plane
-            Vector3 planeScale = new Vector3((float) App.model.gridSizeX / 10,
+            Vector3 planeScale = new Vector3(App.model.gridSizeX / 10.0f,
                                              1,
-                                             (float) App.model.gridSizeZ / 10 );
+                                             App.model.gridSizeZ / 10.0f );
             var planeTransform = transform;
             planeTransform.localScale = planeScale;
             
             // Reposition bottom plane
-            var position = planeTransform.position;
-            planeTransform.position = new Vector3((float) App.model.gridSizeX / 2,
-                                                  position.y, 
-                                                  (float) App.model.gridSizeZ / 2);
+            planeTransform.position = new Vector3(App.model.gridSizeX / 2.0f,
+                                                  0, 
+                                                  App.model.gridSizeZ / 2.0f);
             
             // Retile Material
             GetComponent<MeshRenderer>().sharedMaterial.mainTextureScale = new Vector2(App.model.gridSizeX,

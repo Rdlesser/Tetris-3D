@@ -17,28 +17,10 @@ public class TetrisView : TetrisElement
 
     private void Update()
     {
-        OnArrowKeyInput();
+        // OnArrowKeyInput();
     }
     
-    private void OnArrowKeyInput()
-    {
-        if (Input.GetKeyDown(KeyCode.LeftArrow))
-        {
-            App.Notify(TetrisNotifications.OnArrowKeyPressed, this, Vector3.left);
-        }
-        if (Input.GetKeyDown(KeyCode.RightArrow))
-        {
-            App.Notify(TetrisNotifications.OnArrowKeyPressed, this, Vector3.right);
-        }
-        if (Input.GetKeyDown(KeyCode.UpArrow))
-        {
-            App.Notify(TetrisNotifications.OnArrowKeyPressed, this, Vector3.forward);
-        }
-        if (Input.GetKeyDown(KeyCode.DownArrow))
-        {
-            App.Notify(TetrisNotifications.OnArrowKeyPressed, this, Vector3.back);
-        }
-    }
+    
 
     public bool IsPositionInsidePlayfield(Vector3 position)
     {
@@ -47,7 +29,6 @@ public class TetrisView : TetrisElement
             return playfieldView.IsPositionInsidePlayfield(position);
         }
         
-        Debug.LogError("No playfield set in TetrisView");
         return false;
     }
 
@@ -60,5 +41,10 @@ public class TetrisView : TetrisElement
     public void MoveCurrentBlockInDirection(Vector3 moveDirection)
     {
         playfieldView.MoveCurrentBlockInDirection(moveDirection);
+    }
+
+    public void RotateCurrentBlockInDirection(Vector3 rotationDirection)
+    {
+        playfieldView.RotateCurrentBlockInDirection(rotationDirection);
     }
 }

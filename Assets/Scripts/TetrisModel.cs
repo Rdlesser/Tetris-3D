@@ -39,18 +39,33 @@ public class TetrisModel : TetrisElement
 
     private void OnValidate()
     {
-        App.Notify(TetrisNotifications.GridResize, this);
+        App.Notify(TetrisNotifications.GridResized, this);
+    }
+    
+    public void RemoveFromGrid(TetrisBlockView tetrisBlock)
+    {
+        int count = 0;
+        foreach (TetrisCubeView child in tetrisBlock.ChildCubes)
+        {
+            // Get the child transform
+            var childTransform = child.transform;
+            // Save the child's position
+            var childPosition = childTransform.position;
+            // If the last position was inside the grid we can update the location
+            if (childPosition.y < gridSizeY)
+            {
+                Debug.LogError(string.Format("Removing [{0},{1},{2}]",
+                                             (int) childPosition.x,
+                                             (int) childPosition.y,
+                                             (int) childPosition.z));
+                // Delete former location
+                _theGrid[(int)childPosition.x, (int)childPosition.y, (int)childPosition.z] = null;
+                count++;
+            }
+        }
     }
 
-    // public Vector3 RoundUpVector(Vector3 toRoundUp)
-    // {
-    //     return new Vector3(Mathf.RoundToInt(toRoundUp.x),
-    //                        Mathf.RoundToInt(toRoundUp.y),
-    //                        Mathf.RoundToInt(toRoundUp.z));
-    // }
-
-
-    public void UpdateGrid(TetrisBlockView tetrisBlock, Vector3 moveDirection)
+    public void UpdateGrid(TetrisBlockView tetrisBlock)
     {
         foreach (TetrisCubeView child in tetrisBlock.ChildCubes)
         {
@@ -58,21 +73,17 @@ public class TetrisModel : TetrisElement
             var childTransform = child.transform;
             // Save the child's position
             var childPosition = childTransform.position;
-            // Save the last location of the child
-            var lastPosition = childPosition - moveDirection;
-            // If the last position was inside the grid we can update the location
-            if (lastPosition.y < gridSizeY)
-            {
-                // Delete former location
-                _theGrid[(int)lastPosition.x, (int)lastPosition.y, (int)lastPosition.z] = null;
-            }
-
             // Update the new position
-            if (childPosition.y <= gridSizeY)
+            if (childPosition.y < gridSizeY)
             {
-                _theGrid[(int) childPosition.x, (int)childPosition.y, (int)childPosition.z] = childTransform;
+                Debug.LogError(string.Format("Adding [{0},{1},{2}]",
+                                             (int)childPosition.x, 
+                                             (int)childPosition.y, 
+                                             (int)childPosition.z));
+                _theGrid[(int)childPosition.x,
+                         (int)childPosition.y,
+                         (int)childPosition.z] = childTransform;
             }
-            
             
         }
     }
@@ -90,10 +101,9 @@ public class TetrisModel : TetrisElement
             return false;
         }
 
-        var occupantTransform = _theGrid[(int) nextTransformPosition.x,
-                                               (int) nextTransformPosition.y, 
-                                               (int) nextTransformPosition.z];
+        var occupantTransform = _theGrid[(int)nextTransformPosition.x, 
+                                         (int)nextTransformPosition.y, 
+                                         (int)nextTransformPosition.z];
         return occupantTransform != null && occupantTransform.parent != transformToCheck.parent;
     }
-    
 }

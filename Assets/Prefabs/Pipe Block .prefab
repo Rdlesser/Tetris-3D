@@ -359,7 +359,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c6dc7284b16b4658803e914f5529479, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  height: 2
+  centerPoint: {x: 1, y: 1, z: 1}
   childCubes:
   - {fileID: 1159565750805272138}
   - {fileID: 5749406059318570135}

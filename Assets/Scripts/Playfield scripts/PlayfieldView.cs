@@ -21,7 +21,7 @@ namespace Playfield_scripts
         public void SpawnNewBlock(TetrisBlockView blockToInstantiate, Vector3 position)
         {
 
-            position.y += blockToInstantiate.Height / 2;
+            position += blockToInstantiate.centerPoint;
             
             _currentMovingBlock = Instantiate(blockToInstantiate,
                                                    position,
@@ -31,6 +31,11 @@ namespace Playfield_scripts
         public void MoveCurrentBlockInDirection(Vector3 moveDirection)
         {
             _currentMovingBlock.MoveBlock(moveDirection);
+        }
+
+        public void RotateCurrentBlockInDirection(Vector3 rotationDirection)
+        {
+            _currentMovingBlock.RotateBlock(rotationDirection);
         }
     }
 }
