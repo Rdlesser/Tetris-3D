@@ -1,4 +1,5 @@
 ﻿using Playfield_scripts;
+using Tetris_Block_Scripts;
 using UnityEditor;
 using UnityEngine;
 
@@ -22,5 +23,10 @@ public class TetrisView : TetrisElement
         
         Debug.LogError("No playfield set in TetrisView");
         return false;
+    }
+
+    public void SpawnNewBlock(TetrisBlockView blockToInstantiate, Vector3 position)
+    {
+        playfieldView.SpawnNewBlock(blockToInstantiate, position);
     }
 }

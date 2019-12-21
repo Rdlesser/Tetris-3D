@@ -3,5 +3,6 @@ public enum TetrisNotifications
 {
     GridResize,
     CameraMoveAttempt,
-    OnBlockMoveDown
+    OnBlockMoveDown,
+    BlockMovementStopped
 }

@@ -1,4 +1,4 @@
-﻿using System;
+﻿using Tetris_Block_Scripts;
 using UnityEngine;
 
 // Script to control the playing field view
@@ -16,5 +16,14 @@ namespace Playfield_scripts
             return isInside;
         }
 
+        public void SpawnNewBlock(TetrisBlockView blockToInstantiate, Vector3 position)
+        {
+
+            position.y += blockToInstantiate.Height / 2;
+            
+            TetrisBlockView newBlock = Instantiate(blockToInstantiate,
+                                                   position,
+                                                   Quaternion.identity);
+        }
     }
 }
