@@ -43,10 +43,15 @@ namespace Playfield_scripts
 
         public void AttachInputToBlock()
         {
-            if (ButtonInputsView.Instance != null)
+            if (TetrisButtonInputView.Instance != null)
             {
-                ButtonInputsView.Instance.ActiveBlock = _currentMovingBlock;
+                TetrisButtonInputView.Instance.AttachedBlock = _currentMovingBlock.transform;
             }
+        }
+
+        public void SpeedDropCurrentBlock()
+        {
+            _currentMovingBlock.SpeedDropBlock();
         }
     }
 }

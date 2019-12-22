@@ -17,7 +17,7 @@ namespace Tetris_Block_Scripts
 
         private void Start()
         {
-            App.Notify(TetrisAppNotifications.OnBlockSpawned, this, transform);
+            App.Notify(TetrisAppNotification.OnBlockSpawned, this, transform);
             // ButtonInputsView.Instance.ClampToBlock(this);
         }
 
@@ -31,10 +31,10 @@ namespace Tetris_Block_Scripts
                 if (IsValidMove(Vector3.down))
                 {
                     
-                    App.Notify(TetrisAppNotifications.PrepareMove, this);
+                    App.Notify(TetrisAppNotification.PrepareMove, this);
                     transform.position += Vector3.down;
 
-                    App.Notify(TetrisAppNotifications.OnBlockMoved, this);
+                    App.Notify(TetrisAppNotification.OnBlockMoved, this);
                 }
                 // The block's down movement is blocked by either another block or by the floor
                 else
@@ -43,44 +43,39 @@ namespace Tetris_Block_Scripts
                     enabled = false;
                 
                     // Notify the controller that the tetris block has finished its movement
-                    App.Notify(TetrisAppNotifications.BlockMovementStopped, this);
+                    App.Notify(TetrisAppNotification.BlockMovementStopped, this);
                 }
             
                 _previousFallTime = Time.time;
             }
 
-            OnArrowKeyInput();
-
         }
 
-        public bool MoveBlock(Vector3 direction)
+        public void SpeedDropBlock()
+        {
+            _fallTime *= 0.1f;
+        }
+
+        public void MoveBlock(Vector3 direction)
         {
             bool canMove = false;
             if (IsValidMove(direction))
             {
-                App.Notify(TetrisAppNotifications.PrepareMove, this);
+                App.Notify(TetrisAppNotification.PrepareMove, this);
                 transform.position += direction;
                 canMove = true;
-                App.Notify(TetrisAppNotifications.OnBlockMoved, this);
+                App.Notify(TetrisAppNotification.OnBlockMoved, this);
             }
-
-            return canMove;
-
         }
 
-        public bool RotateBlock(Vector3 direction)
+        public void RotateBlock(Vector3 direction)
         {
-            // Debug.LogError("Rotating Block!!!!!!!!!!!!!!! Direction: " + direction);
-            bool canRotate = false;
             if (IsValidRotation(direction))
             {
-                App.Notify(TetrisAppNotifications.PrepareMove, this);
+                App.Notify(TetrisAppNotification.PrepareMove, this);
                 transform.Rotate(direction, Space.World);
-                canRotate = true;
-                App.Notify(TetrisAppNotifications.OnBlockMoved, this);
+                App.Notify(TetrisAppNotification.OnBlockMoved, this);
             }
-
-            return canRotate;
         }
 
         private bool IsValidMove(Vector3 direction)
@@ -107,25 +102,6 @@ namespace Tetris_Block_Scripts
             transform.Rotate(-rotationDirection, Space.World);
             return true;
         }
-        
-        private void OnArrowKeyInput()
-        {
-            if (Input.GetKeyDown(KeyCode.LeftArrow))
-            {
-                // App.Notify(TetrisNotifications.OnArrowKeyPressed, this, Vector3.left * 90.0f);
-            }
-            if (Input.GetKeyDown(KeyCode.RightArrow))
-            {
-                // App.Notify(TetrisNotifications.OnArrowKeyPressed, this, Vector3.right * 90.0f);
-            }
-            if (Input.GetKeyDown(KeyCode.UpArrow))
-            {
-                App.Notify(TetrisAppNotifications.OnArrowKeyPressed, this, Vector3.right * 90.0f);
-            }
-            if (Input.GetKeyDown(KeyCode.DownArrow))
-            {
-                App.Notify(TetrisAppNotifications.OnArrowKeyPressed, this, Vector3.left * 90.0f);
-            }
-        }
+
     }
 }

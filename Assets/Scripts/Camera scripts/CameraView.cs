@@ -26,7 +26,7 @@ public class CameraView : TetrisElement
         {
             float locationY = Input.GetAxis("Mouse Y");
             float locationX = Input.GetAxis("Mouse X");
-            App.Notify(TetrisAppNotifications.CameraMoveAttempt, this, 
+            App.Notify(TetrisAppNotification.CameraMoveAttempt, this, 
                        _targetXzRotation, locationX, locationY);
         }
 

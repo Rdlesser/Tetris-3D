@@ -39,7 +39,7 @@ public class TetrisModel : TetrisElement
 
     private void OnValidate()
     {
-        App.Notify(TetrisAppNotifications.GridResized, this);
+        App.Notify(TetrisAppNotification.GridResized, this);
     }
     
     public void RemoveFromGrid(TetrisBlockView tetrisBlock)

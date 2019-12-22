@@ -5,6 +5,7 @@ using Camera_scripts;
 using Playfield_scripts;
 using Tetris_Block_Scripts;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using Object = UnityEngine.Object;
 using Random = UnityEngine.Random;
 
@@ -48,15 +49,15 @@ public class TetrisController : TetrisElement
         // TODO: Set Inputs
     }
 
-    public void OnNotification(TetrisAppNotifications eventString, Object target, object[] data)
+    public void OnNotification(TetrisAppNotification eventString, Object target, object[] data)
     {
         switch (eventString)
         {
-            case TetrisAppNotifications.GridResized:
+            case TetrisAppNotification.GridResized:
                 OnGridSizeChanged();
                 break;
             
-            case TetrisAppNotifications.CameraMoveAttempt:
+            case TetrisAppNotification.CameraMoveAttempt:
                 
                 if (data[0] != null && 
                     data[1] != null && 
@@ -75,11 +76,11 @@ public class TetrisController : TetrisElement
                 }
                 break;
             
-            case TetrisAppNotifications.OnBlockSpawned:
+            case TetrisAppNotification.OnBlockSpawned:
                 OnBlockSpawned();
                 break;
             
-            case TetrisAppNotifications.PrepareMove:
+            case TetrisAppNotification.PrepareMove:
                 if (target != null &&
                     target.GetType() == typeof(TetrisBlockView))
                 {
@@ -94,7 +95,7 @@ public class TetrisController : TetrisElement
                 }
                 break;
             
-            case TetrisAppNotifications.OnBlockMoved:
+            case TetrisAppNotification.OnBlockMoved:
                 if (target != null &&
                     target.GetType() == typeof(TetrisBlockView))
                 {
@@ -108,35 +109,111 @@ public class TetrisController : TetrisElement
                 }
                 break;
 
-            case TetrisAppNotifications.BlockMovementStopped:
+            case TetrisAppNotification.BlockMovementStopped:
                 SpawnNewBlock();
                 break;
             
-            case TetrisAppNotifications.OnArrowKeyPressed:
+            case TetrisAppNotification.OnMoveBlockClicked:
                 if (data[0] != null &&
-                    data[0] is Vector3)
+                    data[0].GetType() == typeof(TetrisMoveDirections))
                 {
-                    Vector3 moveDirection = (Vector3) data[0];
-                    RotateCurrentBlockInDirection(moveDirection);
+                    TetrisMoveDirections moveDirection = (TetrisMoveDirections) data[0];
+                    MoveCurrentBlockInDirection(moveDirection);
+                }
+                else
+                {
+                    throw new
+                        ArgumentException("TetrisController.OnNotification - " +
+                                          "Could not move block in chosen direction. Received incompatible type or null");
                 }
                 break;
             
+            case TetrisAppNotification.OnRotateBlockClicked:
+                if (data[0] != null &&
+                    data[0].GetType() == typeof(TetrisRotateDirection))
+                {
+                    TetrisRotateDirection rotateDirection = (TetrisRotateDirection) data[0];
+                    RotateCurrentBlockInDirection(rotateDirection);
+                }
+
+                break;
+            
+            case TetrisAppNotification.OnSwitchDisplayClicked:
+                SwitchDisplay();
+                break;
+            
+            case TetrisAppNotification.OnDropClicked:
+                SpeedDropCurrentBlock();
+                break;
         }
     }
+
 
     private void OnBlockSpawned()
     {
         App.view.AttachInputToBlock();
     }
 
-    private void MoveCurrentBlockInDirection(Vector3 moveDirection)
+    private void MoveCurrentBlockInDirection(TetrisMoveDirections moveDirection)
     {
-        App.view.MoveCurrentBlockInDirection(moveDirection);
+        switch (moveDirection)
+        {
+            case TetrisMoveDirections.Left:
+                App.view.MoveCurrentBlockInDirection(Vector3.left);
+                break;
+            case TetrisMoveDirections.Right:
+                App.view.MoveCurrentBlockInDirection(Vector3.right);
+                break;
+            case TetrisMoveDirections.Forward:
+                App.view.MoveCurrentBlockInDirection(Vector3.forward);
+                break;
+            case TetrisMoveDirections.Back:
+                App.view.MoveCurrentBlockInDirection(Vector3.back);
+                break;
+        }
     }
 
-    private void RotateCurrentBlockInDirection(Vector3 rotationDirection)
+    private void RotateCurrentBlockInDirection(TetrisRotateDirection rotationDirection)
     {
-        App.view.RotateCurrentBlockInDirection(rotationDirection);
+        switch (rotationDirection)
+        {
+            case TetrisRotateDirection.XPositive:
+                App.view.RotateCurrentBlockInDirection(Vector3.right * 90.0f);
+                break;
+            
+            case TetrisRotateDirection.XNegative:
+                App.view.RotateCurrentBlockInDirection(Vector3.left * 90.0f);
+                break;
+            
+            case TetrisRotateDirection.YPositive:
+                App.view.RotateCurrentBlockInDirection(Vector3.up * 90.0f);
+                break;
+            
+            case TetrisRotateDirection.YNegative:
+                App.view.RotateCurrentBlockInDirection(Vector3.down * 90.0f);
+                break;
+            
+            case TetrisRotateDirection.ZPositive:
+                App.view.RotateCurrentBlockInDirection(Vector3.forward * 90.0f);
+                break;
+                
+            case TetrisRotateDirection.ZNegative:
+                App.view.RotateCurrentBlockInDirection(Vector3.back * 90.0f);
+                break;
+                
+                    
+        }
+        
+    }
+    
+    private void SwitchDisplay()
+    {
+        App.view.SwitchHudDisplay();
+    }
+    
+    private void SpeedDropCurrentBlock()
+    {
+        App.view.SpeedDropCurrentBlock();
     }
 }
 

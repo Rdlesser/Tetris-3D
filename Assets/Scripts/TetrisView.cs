@@ -57,4 +57,14 @@ public class TetrisView : TetrisElement
     {
         playfieldView.AttachInputToBlock();
     }
+
+    public void SwitchHudDisplay()
+    {
+        TetrisButtonInputView.Instance.SwitchDisplay();
+    }
+
+    public void SpeedDropCurrentBlock()
+    {
+        playfieldView.SpeedDropCurrentBlock();
+    }
 }
