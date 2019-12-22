@@ -9,6 +9,8 @@ namespace Playfield_scripts
 
         private TetrisBlockView _currentMovingBlock;
 
+        public TetrisBlockView CurrentMovingBlock => _currentMovingBlock;
+
         public bool IsPositionInsidePlayfield(Vector3 position)
         {
             bool isInside = position.y >= 0 && 
@@ -26,6 +28,7 @@ namespace Playfield_scripts
             _currentMovingBlock = Instantiate(blockToInstantiate,
                                                    position,
                                                    Quaternion.identity);
+            // ButtonInputsView.Instance.ClampToBlock(_currentMovingBlock);
         }
 
         public void MoveCurrentBlockInDirection(Vector3 moveDirection)
@@ -36,6 +39,14 @@ namespace Playfield_scripts
         public void RotateCurrentBlockInDirection(Vector3 rotationDirection)
         {
             _currentMovingBlock.RotateBlock(rotationDirection);
+        }
+
+        public void AttachInputToBlock()
+        {
+            if (ButtonInputsView.Instance != null)
+            {
+                ButtonInputsView.Instance.ActiveBlock = _currentMovingBlock;
+            }
         }
     }
 }

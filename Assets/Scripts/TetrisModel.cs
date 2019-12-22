@@ -39,7 +39,7 @@ public class TetrisModel : TetrisElement
 
     private void OnValidate()
     {
-        App.Notify(TetrisNotifications.GridResized, this);
+        App.Notify(TetrisAppNotifications.GridResized, this);
     }
     
     public void RemoveFromGrid(TetrisBlockView tetrisBlock)
@@ -54,10 +54,10 @@ public class TetrisModel : TetrisElement
             // If the last position was inside the grid we can update the location
             if (childPosition.y < gridSizeY)
             {
-                Debug.LogError(string.Format("Removing [{0},{1},{2}]",
-                                             (int) childPosition.x,
-                                             (int) childPosition.y,
-                                             (int) childPosition.z));
+                // Debug.LogError(string.Format("Removing [{0},{1},{2}]",
+                //                              (int) childPosition.x,
+                //                              (int) childPosition.y,
+                //                              (int) childPosition.z));
                 // Delete former location
                 _theGrid[(int)childPosition.x, (int)childPosition.y, (int)childPosition.z] = null;
                 count++;
@@ -76,10 +76,10 @@ public class TetrisModel : TetrisElement
             // Update the new position
             if (childPosition.y < gridSizeY)
             {
-                Debug.LogError(string.Format("Adding [{0},{1},{2}]",
-                                             (int)childPosition.x, 
-                                             (int)childPosition.y, 
-                                             (int)childPosition.z));
+                // Debug.LogError(string.Format("Adding [{0},{1},{2}]",
+                //                              (int)childPosition.x, 
+                //                              (int)childPosition.y, 
+                //                              (int)childPosition.z));
                 _theGrid[(int)childPosition.x,
                          (int)childPosition.y,
                          (int)childPosition.z] = childTransform;

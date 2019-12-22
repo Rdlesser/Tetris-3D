@@ -8,7 +8,7 @@ using UnityEngine;
 public class TetrisView : TetrisElement
 {
 
-    [SerializeField] private PlayfieldView playfieldView;
+    [SerializeField] public PlayfieldView playfieldView;
     
     public void OnGridSizeChanged()
     {
@@ -46,5 +46,15 @@ public class TetrisView : TetrisElement
     public void RotateCurrentBlockInDirection(Vector3 rotationDirection)
     {
         playfieldView.RotateCurrentBlockInDirection(rotationDirection);
+    }
+
+    public TetrisBlockView GetCurrentMovingBlock()
+    {
+        return playfieldView.CurrentMovingBlock;
+    }
+
+    public void AttachInputToBlock()
+    {
+        playfieldView.AttachInputToBlock();
     }
 }

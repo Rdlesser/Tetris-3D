@@ -48,15 +48,15 @@ public class TetrisController : TetrisElement
         // TODO: Set Inputs
     }
 
-    public void OnNotification(TetrisNotifications eventString, Object target, object[] data)
+    public void OnNotification(TetrisAppNotifications eventString, Object target, object[] data)
     {
         switch (eventString)
         {
-            case TetrisNotifications.GridResized:
+            case TetrisAppNotifications.GridResized:
                 OnGridSizeChanged();
                 break;
             
-            case TetrisNotifications.CameraMoveAttempt:
+            case TetrisAppNotifications.CameraMoveAttempt:
                 
                 if (data[0] != null && 
                     data[1] != null && 
@@ -71,12 +71,15 @@ public class TetrisController : TetrisElement
                 }
                 else
                 {
-                    Debug.LogError("TetrisController.OnNotification - Could not move camera. " +
-                                   "Received incompatible types in data or null");
+                    throw new ArgumentException("TetrisController.OnNotification - Could not move camera. " + "Received incompatible types in data or null");
                 }
                 break;
             
-            case TetrisNotifications.PrepareMove:
+            case TetrisAppNotifications.OnBlockSpawned:
+                OnBlockSpawned();
+                break;
+            
+            case TetrisAppNotifications.PrepareMove:
                 if (target != null &&
                     target.GetType() == typeof(TetrisBlockView))
                 {
@@ -85,12 +88,13 @@ public class TetrisController : TetrisElement
                 }
                 else
                 {
-                    Debug.LogError("TetrisController.OnNotification - move could not be prepared due to" +
-                                   " incompatible types in data or null");
+                    
+                    throw new ArgumentException("TetrisController.OnNotification - move could not be prepared due to" + 
+                                                " incompatible types in data or null");
                 }
                 break;
             
-            case TetrisNotifications.OnBlockMoved:
+            case TetrisAppNotifications.OnBlockMoved:
                 if (target != null &&
                     target.GetType() == typeof(TetrisBlockView))
                 {
@@ -99,15 +103,16 @@ public class TetrisController : TetrisElement
                 }
                 else
                 {
-                    Debug.LogError("TetrisController.OnNotification - Could not move block down. Received incompatible type");
+                    throw new ArgumentException("TetrisController.OnNotification - Could not move block down. " +
+                                                "Received incompatible type or null");
                 }
                 break;
 
-            case TetrisNotifications.BlockMovementStopped:
+            case TetrisAppNotifications.BlockMovementStopped:
                 SpawnNewBlock();
                 break;
             
-            case TetrisNotifications.OnArrowKeyPressed:
+            case TetrisAppNotifications.OnArrowKeyPressed:
                 if (data[0] != null &&
                     data[0] is Vector3)
                 {
@@ -117,6 +122,11 @@ public class TetrisController : TetrisElement
                 break;
             
         }
+    }
+
+    private void OnBlockSpawned()
+    {
+        App.view.AttachInputToBlock();
     }
 
     private void MoveCurrentBlockInDirection(Vector3 moveDirection)

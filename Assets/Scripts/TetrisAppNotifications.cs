@@ -1,10 +1,11 @@
 ﻿// This class will give static access to the events strings.
-public enum TetrisNotifications
+public enum TetrisAppNotifications
 {
     BlockMovementStopped,
     CameraMoveAttempt,
     GridResized,
     OnArrowKeyPressed,
     OnBlockMoved,
-    PrepareMove
+    PrepareMove,
+    OnBlockSpawned
 }

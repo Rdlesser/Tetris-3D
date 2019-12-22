@@ -17,7 +17,7 @@ public class TetrisApp : MonoBehaviour
     // Notify the controller and delegate the notification data
     // This method can easily be found because every class is a “TetrisElement” and has an “app” 
     // instance.
-    public void Notify(TetrisNotifications eventString, Object target, params object[] data)
+    public void Notify(TetrisAppNotifications eventString, Object target, params object[] data)
     {
         controller.OnNotification(eventString, target, data);
         
