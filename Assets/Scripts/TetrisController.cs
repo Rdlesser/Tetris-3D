@@ -20,21 +20,29 @@ public class TetrisController : TetrisElement
         SpawnNewBlock();
     }
 
-    // Handles the win condition
+    // Handles the lose condition
     public void OnGameOver()
     {
         Debug.Log("Game Over!!!");
     }
 
+    /// <summary>
+    /// A Method to be called when the grid size has changed 
+    /// </summary>
     public void OnGridSizeChanged()
     {
         App.view.OnGridSizeChanged();
     }
     
+    /// <summary>
+    /// Spawn a new block 
+    /// </summary>
     public void SpawnNewBlock()
     {
+        // Randomly choose a block to spawn according to our available blocks
         TetrisBlockView[] availableBlocks = App.model.tetrisBlocks;
         var position = transform.position;
+        // Choose the position of the block - top of the center field
         Vector3 spawnPoint = new Vector3((int)(position.x + App.model.gridSizeX / 2.0f),
                                          (int)(position.y + App.model.gridSizeY),
                                          (int)(position.z + App.model.gridSizeZ / 2.0f));
@@ -49,6 +57,15 @@ public class TetrisController : TetrisElement
         // TODO: Set Inputs
     }
 
+    /// <summary>
+    /// A listener function for the app's notifications
+    /// </summary>
+    /// <param name="eventString">A string (enum) representation of the event</param>
+    /// <param name="target">The target of the notification - who is the notifier</param>
+    /// <param name="data">Extra data that was passed with the notification</param>
+    /// <exception cref="ArgumentException">
+    /// An exception is thrown when a notification with insufficient or missing data was sent
+    /// </exception>
     public void OnNotification(TetrisAppNotification eventString, Object target, object[] data)
     {
         switch (eventString)
@@ -194,11 +211,19 @@ public class TetrisController : TetrisElement
     }
 
 
+    /// <summary>
+    /// Function to be called when a new block is spawned.
+    /// </summary>
     private void OnBlockSpawned()
     {
+        // Tell the app's view to attach the input buttons to the newly created block
         App.view.AttachInputToBlock();
     }
 
+    /// <summary>
+    /// Move the currently falling block in a given direction
+    /// </summary>
+    /// <param name="moveDirection">The direction to move the block</param>
     private void MoveCurrentBlockInDirection(TetrisMoveDirections moveDirection)
     {
         switch (moveDirection)
@@ -218,6 +243,10 @@ public class TetrisController : TetrisElement
         }
     }
 
+    /// <summary>
+    /// Rotate the currently falling drop in a specified direction
+    /// </summary>
+    /// <param name="rotationDirection">The direction to rotate</param>
     private void RotateCurrentBlockInDirection(TetrisRotateDirection rotationDirection)
     {
         switch (rotationDirection)
@@ -251,13 +280,21 @@ public class TetrisController : TetrisElement
         
     }
     
+    /// <summary>
+    /// Switch the HUD display between movement arrows and rotation arrows
+    /// </summary>
     private void SwitchDisplay()
     {
+        // Tell the app's view to switch between displays
         App.view.SwitchHudDisplay();
     }
     
+    /// <summary>
+    /// Make the currently falling block drop faster
+    /// </summary>
     private void SpeedDropCurrentBlock()
     {
+        // Tell the app's view to speed up the block
         App.view.SpeedDropCurrentBlock();
     }
 }
