@@ -17,6 +17,8 @@ public class TetrisModel : TetrisElement
     public TetrisBlockView[] tetrisBlocks;
 
     public GhostBlockView[] tetrisBlockGhosts;
+
+    public int[] blockWeights;
     
     private Transform[,,] _theGrid;
     
@@ -40,6 +42,11 @@ public class TetrisModel : TetrisElement
 
     private void OnValidate()
     {
+        if (tetrisBlocks.Length != tetrisBlockGhosts.Length ||
+            tetrisBlocks.Length != blockWeights.Length)
+        {
+            Debug.LogError("The length of tetris blocks, tetris block ghosts and block weights must match");
+        }
         // When the grid size is changed by the inspector - notify the app that it has happened
         App.Notify(TetrisAppNotification.GridResized, this);
     }

@@ -12,8 +12,10 @@ namespace Tetris_Block_Scripts
         public Vector3 centerPoint;
 
         [SerializeField] private TetrisCubeView[] childCubes;
+        [SerializeField] private GhostBlockView _ghostBlock;
 
         public TetrisCubeView[] ChildCubes => childCubes;
+        public GhostBlockView GhostBlock => _ghostBlock;
 
         private void Start()
         {

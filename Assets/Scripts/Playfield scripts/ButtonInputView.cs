@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Playfield_scripts;
 using Tetris_Block_Scripts;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ButtonInputView : TetrisElement
 {
@@ -161,6 +162,7 @@ public class ButtonInputView : TetrisElement
         {
             canvas.SetActive( !_moveCanvasDisplayed);
         }
+        
     }
 
 }

@@ -42,20 +42,35 @@ public class TetrisController : TetrisElement
         // Randomly choose a block to spawn according to our available blocks
         TetrisBlockView[] availableBlocks = App.model.tetrisBlocks;
         GhostBlockView[] ghostBlocks = App.model.tetrisBlockGhosts;
+        int[] blockWeights = App.model.blockWeights;
+        TetrisBlockView[] weightedBlockList = createWeightedBlockList(availableBlocks, blockWeights);
         var position = transform.position;
         // Choose the position of the block - top of the center field
         Vector3 spawnPoint = new Vector3((int)(position.x + App.model.gridSizeX / 2.0f),
                                          (int)(position.y + App.model.gridSizeY),
                                          (int)(position.z + App.model.gridSizeZ / 2.0f));
 
-        int randomIndex = Random.Range(0, availableBlocks.Length);
+        int randomIndex = Random.Range(0, weightedBlockList.Length);
             
         // Spawn the block
-        App.view.SpawnNewBlock(availableBlocks[randomIndex], ghostBlocks[randomIndex], spawnPoint);
+        App.view.SpawnNewBlock(weightedBlockList[randomIndex], weightedBlockList[randomIndex].GhostBlock, spawnPoint);
         
         // TODO: Create "Ghost" for the block
         
         // TODO: Set Inputs
+    }
+
+    private TetrisBlockView[] createWeightedBlockList(TetrisBlockView[] blocks, int[] weights)
+    {
+        List<TetrisBlockView> blockList = new List<TetrisBlockView>();
+        foreach (var block in blocks)
+        {
+            for (int i = 0; i < weights.Length; i++)
+            {
+                blockList.Add(block);
+            }
+        }
+        return blockList.ToArray();
     }
 
     /// <summary>

@@ -157,6 +157,8 @@ MonoBehaviour:
   - {fileID: 9192946446976323809}
   - {fileID: 6003315665192765264}
   - {fileID: 209910332808751473}
+  _ghostBlock: {fileID: -3730970286939112018, guid: 3fdf2feef87c3487392b32d91fea1df7,
+    type: 3}
 --- !u!1 &5989514298576584307
 GameObject:
   m_ObjectHideFlags: 0

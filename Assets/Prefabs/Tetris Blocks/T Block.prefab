@@ -469,3 +469,5 @@ MonoBehaviour:
   - {fileID: 1527816429548009538}
   - {fileID: 4440052885156380121}
   - {fileID: 1274481487433023670}
+  _ghostBlock: {fileID: 7335378612983488528, guid: a0cec5e44863c4b8b9ee4e8d34b13e5c,
+    type: 3}
