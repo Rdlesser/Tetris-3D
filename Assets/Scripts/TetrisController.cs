@@ -85,7 +85,7 @@ public class TetrisController : TetrisElement
                     target.GetType() == typeof(TetrisBlockView))
                 {
                     TetrisBlockView tetrisBlock = (TetrisBlockView) target;
-                    App.model.RemoveFromGrid(tetrisBlock);
+                    App.model.RemoveBlockFromGrid(tetrisBlock);
                 }
                 else
                 {
@@ -110,7 +110,13 @@ public class TetrisController : TetrisElement
                 break;
 
             case TetrisAppNotification.BlockMovementStopped:
-                SpawnNewBlock();
+                if (target != null &&
+                    target.GetType() == typeof(TetrisBlockView))
+                {
+                    TetrisBlockView tetrisBlock = (TetrisBlockView) target;
+                    DeleteLayersIfPossible(tetrisBlock);
+                    SpawnNewBlock();
+                }
                 break;
             
             case TetrisAppNotification.OnMoveBlockClicked:
@@ -146,6 +152,45 @@ public class TetrisController : TetrisElement
                 SpeedDropCurrentBlock();
                 break;
         }
+    }
+
+    private void DeleteLayersIfPossible(TetrisBlockView tetrisBlock)
+    {
+        List<int> markedLayers = MarkDeletionLayers(tetrisBlock);
+        markedLayers.Sort();
+        int dropCount = 0;
+        if (markedLayers.Count > 0)
+        {
+            foreach (var markedLayer in markedLayers)
+            {
+                App.model.DeleteLayer(markedLayer);
+            }
+            
+            foreach (var markedLayer in markedLayers)
+            {
+                App.model.DropHigherLayers(markedLayer - dropCount);
+                dropCount++;
+            }
+            
+        }
+    }
+
+    private List<int> MarkDeletionLayers(TetrisBlockView tetrisBlock)
+    {
+        List<int> fullLayers = new List<int>();
+        foreach (var child in tetrisBlock.ChildCubes)
+        {
+            float childYPosition = child.transform.position.y;
+            if (App.model.IsLayerFull((int)childYPosition))
+            {
+                if (!fullLayers.Contains((int)childYPosition))
+                {
+                    fullLayers.Add((int) childYPosition);
+                }
+            }
+        }
+
+        return fullLayers;
     }
 
 
