@@ -585,14 +585,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 226008785}
-  m_LocalRotation: {x: 0.46193978, y: -0.33141357, z: 0.19134171, w: 0.8001032}
+  m_LocalRotation: {x: 0.5299155, y: -0.31347594, z: 0.21949817, w: 0.7567979}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 963194228}
   m_Father: {fileID: 911985714}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 60, y: -45, z: 0}
+  m_LocalEulerAnglesHint: {x: 70, y: -45, z: 0}
 --- !u!1 &287351125
 GameObject:
   m_ObjectHideFlags: 0
@@ -1490,14 +1490,9 @@ MonoBehaviour:
   gridSizeY: 10
   gridSizeZ: 7
   tetrisBlocks:
-  - {fileID: 5033061475459374527, guid: da0d134857c4a4e86a2b8912a52ce0bc, type: 3}
-  - {fileID: 5989514297763971970, guid: cf4860c677d2b49e0b23cae6e07c783c, type: 3}
-  - {fileID: 5381104875495473818, guid: d6e6a65267e9340f7a3dd6bfc0fb1873, type: 3}
   - {fileID: 5309805429006859246, guid: 9e8ab5256e2f9415c850a7c65a349b78, type: 3}
-  - {fileID: 7782171877690136571, guid: 08ef2b6254db14d219b92aa706962c04, type: 3}
-  - {fileID: 383743998076347889, guid: daeae170b9e5f48e4a700d7b5195f4d1, type: 3}
-  - {fileID: 6068723370005870315, guid: 54f28eeb6ff2d458781bd5a13e6f9114, type: 3}
-  - {fileID: 2152683983471043031, guid: 564e038a502b947dd95f91386737d4a6, type: 3}
+  tetrisBlockGhosts:
+  - {fileID: -8303685580346736464, guid: 40870fc280bb14ca8a28feaa18c19e23, type: 3}
 --- !u!1 &910773364
 GameObject:
   m_ObjectHideFlags: 0
@@ -1638,7 +1633,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -10}
+  m_LocalPosition: {x: 0, y: 0, z: -8.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 226008786}

@@ -41,6 +41,7 @@ public class TetrisController : TetrisElement
     {
         // Randomly choose a block to spawn according to our available blocks
         TetrisBlockView[] availableBlocks = App.model.tetrisBlocks;
+        GhostBlockView[] ghostBlocks = App.model.tetrisBlockGhosts;
         var position = transform.position;
         // Choose the position of the block - top of the center field
         Vector3 spawnPoint = new Vector3((int)(position.x + App.model.gridSizeX / 2.0f),
@@ -50,7 +51,7 @@ public class TetrisController : TetrisElement
         int randomIndex = Random.Range(0, availableBlocks.Length);
             
         // Spawn the block
-        App.view.SpawnNewBlock(availableBlocks[randomIndex], spawnPoint);
+        App.view.SpawnNewBlock(availableBlocks[randomIndex], ghostBlocks[randomIndex], spawnPoint);
         
         // TODO: Create "Ghost" for the block
         

@@ -32,9 +32,9 @@ public class TetrisView : TetrisElement
         return false;
     }
 
-    public void SpawnNewBlock(TetrisBlockView blockToInstantiate, Vector3 position)
+    public void SpawnNewBlock(TetrisBlockView blockToInstantiate, GhostBlockView ghostBlock, Vector3 position)
     {
-        playfieldView.SpawnNewBlock(blockToInstantiate, position);
+        playfieldView.SpawnNewBlock(blockToInstantiate, ghostBlock, position);
     }
 
 
@@ -60,7 +60,7 @@ public class TetrisView : TetrisElement
 
     public void SwitchHudDisplay()
     {
-        TetrisButtonInputView.Instance.SwitchDisplay();
+        ButtonInputView.Instance.SwitchDisplay();
     }
 
     public void SpeedDropCurrentBlock()

@@ -15,6 +15,8 @@ public class TetrisModel : TetrisElement
 
     [Header("Tetris Blcok Config")]
     public TetrisBlockView[] tetrisBlocks;
+
+    public GhostBlockView[] tetrisBlockGhosts;
     
     private Transform[,,] _theGrid;
     

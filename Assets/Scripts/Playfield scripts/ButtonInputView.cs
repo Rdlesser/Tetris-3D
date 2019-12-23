@@ -5,9 +5,9 @@ using Playfield_scripts;
 using Tetris_Block_Scripts;
 using UnityEngine;
 
-public class TetrisButtonInputView : TetrisElement
+public class ButtonInputView : TetrisElement
 {
-    public static TetrisButtonInputView Instance;
+    public static ButtonInputView Instance;
 
     [SerializeField] private GameObject[] rotationCanvases;
     [SerializeField] private GameObject movementCanvas;

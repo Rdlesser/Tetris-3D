@@ -8,6 +8,7 @@ namespace Playfield_scripts
     {
 
         private TetrisBlockView _currentMovingBlock;
+        private GhostBlockView _currentGhostBlock;
 
         public TetrisBlockView CurrentMovingBlock => _currentMovingBlock;
 
@@ -20,7 +21,7 @@ namespace Playfield_scripts
             return isInside;
         }
 
-        public void SpawnNewBlock(TetrisBlockView blockToInstantiate, Vector3 position)
+        public void SpawnNewBlock(TetrisBlockView blockToInstantiate, GhostBlockView ghostBlock, Vector3 position)
         {
 
             position += blockToInstantiate.centerPoint;
@@ -28,7 +29,11 @@ namespace Playfield_scripts
             _currentMovingBlock = Instantiate(blockToInstantiate,
                                                    position,
                                                    Quaternion.identity);
-            // ButtonInputsView.Instance.ClampToBlock(_currentMovingBlock);
+            _currentGhostBlock = Instantiate(ghostBlock,
+                                             position,
+                                             Quaternion.identity);
+            _currentGhostBlock.SetParentBlock(_currentMovingBlock);
+
         }
 
         public void MoveCurrentBlockInDirection(Vector3 moveDirection)
@@ -43,9 +48,9 @@ namespace Playfield_scripts
 
         public void AttachInputToBlock()
         {
-            if (TetrisButtonInputView.Instance != null)
+            if (ButtonInputView.Instance != null)
             {
-                TetrisButtonInputView.Instance.AttachedBlock = _currentMovingBlock.transform;
+                ButtonInputView.Instance.AttachedBlock = _currentMovingBlock.transform;
             }
         }
 
