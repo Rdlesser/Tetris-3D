@@ -1725,8 +1725,15 @@ MonoBehaviour:
   initialFallSpeed: 3
   increaseSpeedOverTime: 0.9
   tetrisBlocks:
+  - {fileID: 5033061475459374527, guid: da0d134857c4a4e86a2b8912a52ce0bc, type: 3}
   - {fileID: 5989514297763971970, guid: cf4860c677d2b49e0b23cae6e07c783c, type: 3}
-  blockWeights: 01000000
+  - {fileID: 5381104875495473818, guid: d6e6a65267e9340f7a3dd6bfc0fb1873, type: 3}
+  - {fileID: 5309805429006859246, guid: 9e8ab5256e2f9415c850a7c65a349b78, type: 3}
+  - {fileID: 7782171877690136571, guid: 08ef2b6254db14d219b92aa706962c04, type: 3}
+  - {fileID: 383743998076347889, guid: daeae170b9e5f48e4a700d7b5195f4d1, type: 3}
+  - {fileID: 6068723370005870315, guid: 54f28eeb6ff2d458781bd5a13e6f9114, type: 3}
+  - {fileID: 2152683983471043031, guid: 564e038a502b947dd95f91386737d4a6, type: 3}
+  blockWeights: 0100000001000000010000000100000001000000010000000100000001000000
   previewRotationSpeed: 100
   scorePerCompleteRow: 100
 --- !u!1 &910773364
@@ -2034,7 +2041,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 983359902}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 17, y: 0.5, z: -2.5}
+  m_LocalPosition: {x: 17, y: 0.5, z: -1.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1890846660}
