@@ -1,12 +1,13 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
+/// <summary>
+/// Class representing the blocks shown in the preview window
+/// </summary>
 public class PreviewBlockView : TetrisElement
 {
 
-    private float _rotationSpeed = 50;
+    // The speed in which to rotate the block
+    private float _rotationSpeed;
     
     private void Start()
     {

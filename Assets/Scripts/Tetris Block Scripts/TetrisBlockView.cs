@@ -23,7 +23,6 @@ namespace Tetris_Block_Scripts
         {
             _fallTime = App.model.CurrentFallSpeed;
             App.Notify(TetrisAppNotification.OnBlockSpawned, this, transform);
-            // ButtonInputsView.Instance.ClampToBlock(this);
         }
 
 
@@ -56,35 +55,59 @@ namespace Tetris_Block_Scripts
 
         }
 
+        /// <summary>
+        /// Quickly move the block down
+        /// </summary>
         public void SpeedDropBlock()
         {
             _fallTime *= 0.01f;
         }
-
+        
+        /// <summary>
+        /// Move the block in a specified direction
+        /// </summary>
+        /// <param name="direction">The direction in which to move the block</param>
         public void MoveBlock(Vector3 direction)
         {
-            bool canMove = false;
             if (IsValidMove(direction))
             {
+                // Notify the app that the block is about to move in case there need to be some preparations
                 App.Notify(TetrisAppNotification.PrepareMove, this);
+                // Move the block in the specific direction
                 transform.position += direction;
-                canMove = true;
+                // Notify the app that the block has moved
                 App.Notify(TetrisAppNotification.OnBlockMoved, this);
             }
         }
 
+        /// <summary>
+        /// Rotate the block in a specified direction
+        /// </summary>
+        /// <param name="direction">The direction in which to rotate the block</param>
         public void RotateBlock(Vector3 direction)
         {
             if (IsValidRotation(direction))
             {
+                // Notify the app that the block is about to move in case there need to be some preparations
                 App.Notify(TetrisAppNotification.PrepareMove, this);
+                // Rotate the block in the given direction
                 transform.Rotate(direction, Space.World);
+                // Notify the app that the block has moved to a new position
                 App.Notify(TetrisAppNotification.OnBlockMoved, this);
             }
         }
 
+        /// <summary>
+        /// Check if the block can move in a certain direction
+        /// </summary>
+        /// <param name="direction">The direction in which we would like to move the block</param>
+        /// <returns>
+        /// True if the move is valid
+        /// False otherwise
+        /// </returns>
         private bool IsValidMove(Vector3 direction)
         {
+            // For each cube of the tetris block - check if the cube can move in the direction
             foreach (TetrisCubeView child in childCubes)
             {
                 if (!child.IsValidMove(direction))
@@ -95,6 +118,14 @@ namespace Tetris_Block_Scripts
             return true;
         }
 
+        /// <summary>
+        /// Check if the block can rotate in a specified direction
+        /// </summary>
+        /// <param name="rotationDirection">The direction of the rotation we would like to check</param>
+        /// <returns>
+        /// True - if we the rotation is valid
+        /// False - otherwise
+        /// </returns>
         private bool IsValidRotation(Vector3 rotationDirection)
         {
             // Perform rotation and check current location is valid

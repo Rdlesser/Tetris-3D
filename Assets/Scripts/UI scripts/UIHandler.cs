@@ -4,6 +4,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+/// <summary>
+/// A handler for the HUD (score, level etc...)
+/// </summary>
 public class UIHandler : TetrisElement
 {
 
@@ -24,6 +27,9 @@ public class UIHandler : TetrisElement
         UpdateUI();
     }
 
+    /// <summary>
+    /// Update the UI by reading the model's data
+    /// </summary>
     public void UpdateUI()
     {
         scoreText.text = "Score: " + App.model.Score.ToString("D9");

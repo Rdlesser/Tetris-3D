@@ -7,7 +7,7 @@ namespace Playfield_scripts
     
         private void OnDrawGizmos()
         {
-            // Resize bottom plane
+            // Resize  plane
             if (App != null)
             {
                 Vector3 planeScale = new Vector3(App.model.gridSizeZ / 10.0f,
@@ -16,7 +16,7 @@ namespace Playfield_scripts
                 var planeTransform = transform;
                 planeTransform.localScale = planeScale;
             
-                // Reposition bottom plane
+                // Reposition  plane
                 planeTransform.position = new Vector3(0.0f,
                                                       App.model.gridSizeY / 2.0f, 
                                                       App.model.gridSizeZ / 2.0f);

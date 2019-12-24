@@ -26,12 +26,18 @@ public class CameraView : TetrisElement
         {
             float locationY = Input.GetAxis("Mouse Y");
             float locationX = Input.GetAxis("Mouse X");
+            // Register an attempt to move the camer
             App.Notify(TetrisAppNotification.CameraMoveAttempt, this, 
                        _targetXzRotation, locationX, locationY);
         }
 
     }
 
+    /// <summary>
+    /// Rotate the camera view
+    /// </summary>
+    /// <param name="angles">The EulerAngles to be used</param>
+    /// <param name="angleX">The angle of X</param>
     public void RotateCamera(Vector3 angles, float angleX)
     {
         _targetXzRotation.eulerAngles = angles;

@@ -10,6 +10,10 @@ public class PreviewView : TetrisElement
         Instance = this;
     }
 
+    /// <summary>
+    /// Show a preview of the next block to appear
+    /// </summary>
+    /// <param name="previewBlock">The block to show in the preview window</param>
     public void ShowPreview(PreviewBlockView previewBlock)
     {
         if (_currentActive != null)

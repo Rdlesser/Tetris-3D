@@ -22,8 +22,6 @@ public class ButtonInputView : TetrisElement
 
     private bool _moveCanvasDisplayed = true;
 
-    // private TetrisBlockView _activeTetrisBlock;
-
     void Awake()
     {
         Instance = this;
@@ -40,6 +38,9 @@ public class ButtonInputView : TetrisElement
 
     }
 
+    /// <summary>
+    /// Reposition the block control inputs to the Active block
+    /// </summary>
     private void RepositionToActiveBlock()
     {
         if (_attachedBlock != null)
@@ -48,113 +49,111 @@ public class ButtonInputView : TetrisElement
         }
     }
 
+    /// <summary>
+    /// Method called by a click on one of the arrow buttons around the block
+    /// </summary>
+    /// <param name="direction">The direction in which the user wishes to move the block</param>
     public void MoveBlock(string direction)
     {
         if (_attachedBlock != null)
         {
-            // Debug.LogError("Clicked on " + direction);
+            // Switch case for the given direction
+            TetrisMoveDirections moveDirection = TetrisMoveDirections.Forward;
             switch (direction)
             {
                 case "left":
-                    App.Notify(TetrisAppNotification.OnMoveBlockClicked,
-                               this,
-                               TetrisMoveDirections.Left);
-                    // _attachedBlock.MoveBlock(Vector3.left);
+                    moveDirection = TetrisMoveDirections.Left;
                     break;
 
                 case "right":
-                    App.Notify(TetrisAppNotification.OnMoveBlockClicked,
-                               this,
-                               TetrisMoveDirections.Right);
-                    // _attachedBlock.MoveBlock(Vector3.right);
+                    moveDirection = TetrisMoveDirections.Right;
                     break;
 
                 case "forward":
-                    App.Notify(TetrisAppNotification.OnMoveBlockClicked,
-                               this,
-                               TetrisMoveDirections.Forward);
-                    // _attachedBlock.MoveBlock(Vector3.forward);
+                    moveDirection = TetrisMoveDirections.Forward;
                     break;
 
                 case "back":
-                    App.Notify(TetrisAppNotification.OnMoveBlockClicked,
-                               this,
-                               TetrisMoveDirections.Back);
-                    // _attachedBlock.MoveBlock(Vector3.back);
+                    moveDirection = TetrisMoveDirections.Back;
                     break;
 
             }
+            // Register a click on one of the move buttons
+            App.Notify(TetrisAppNotification.OnMoveBlockClicked,
+                       this,
+                       moveDirection);
         }
     }
 
+    /// <summary>
+    /// Method called by a click on one of the rotation arrows used to rotate the moving block
+    /// </summary>
+    /// <param name="rotation">The rotation in which to rotate the block</param>
     public void RotateBlock(string rotation)
     {
         if (_attachedBlock != null)
         {
-            // Debug.LogError("Pressed " + rotation);
+            TetrisRotateDirection tetrisRotateDirection = TetrisRotateDirection.XNegative;
             switch (rotation)
             {
                 case "XPositive":
-                    App.Notify(TetrisAppNotification.OnRotateBlockClicked,
-                               this,
-                               TetrisRotateDirection.XPositive);
-                    // _attachedBlock.RotateBlock(Vector3.right * 90.0f);
+                    tetrisRotateDirection = TetrisRotateDirection.XPositive;
                     break;
 
                 case "XNegative":
-                    App.Notify(TetrisAppNotification.OnRotateBlockClicked,
-                               this,
-                               TetrisRotateDirection.XNegative);
-                    // _attachedBlock.RotateBlock(Vector3.left * 90.0f);
+                    tetrisRotateDirection = TetrisRotateDirection.XNegative;
                     break;
 
                 case "YPositive":
-                    App.Notify(TetrisAppNotification.OnRotateBlockClicked,
-                               this,
-                               TetrisRotateDirection.YPositive);
-                    // _attachedBlock.RotateBlock(Vector3.up * 90.0f);
+                    tetrisRotateDirection = TetrisRotateDirection.YPositive;
                     break;
 
                 case "YNegative":
-                    App.Notify(TetrisAppNotification.OnRotateBlockClicked,
-                               this,
-                               TetrisRotateDirection.YNegative);
-                    // _attachedBlock.RotateBlock(Vector3.down * 90.0f);
+                    tetrisRotateDirection = TetrisRotateDirection.YNegative;
                     break;
 
                 case "ZPositive":
-                    App.Notify(TetrisAppNotification.OnRotateBlockClicked,
-                               this,
-                               TetrisRotateDirection.ZPositive);
-                    // _attachedBlock.RotateBlock(Vector3.forward * 90.0f);
+                    tetrisRotateDirection = TetrisRotateDirection.ZPositive;
                     break;
 
                 case "ZNegative":
-                    App.Notify(TetrisAppNotification.OnRotateBlockClicked,
-                               this,
-                               TetrisRotateDirection.ZNegative);
-                    // _attachedBlock.RotateBlock(Vector3.back * 90.0f);
+                    tetrisRotateDirection = TetrisRotateDirection.ZNegative;
                     break;
             }
+            App.Notify(TetrisAppNotification.OnRotateBlockClicked,
+                       this,
+                       tetrisRotateDirection);
         }
     }
 
+    /// <summary>
+    /// Listener for the switch display button
+    /// </summary>
     public void OnSwitchDisplayClicked()
     {
         App.Notify(TetrisAppNotification.OnSwitchDisplayClicked, this);
     }
 
+    /// <summary>
+    /// Method called by the controller to switch the display between movement arrows and rotation arrows
+    /// </summary>
     public void SwitchDisplay()
     {
         _moveCanvasDisplayed = !_moveCanvasDisplayed;
         SetCanvasesActiveState();
     }
 
+    /// <summary>
+    /// Method called by the speed up button
+    /// </summary>
     public void SpeedDropBlock()
     {
         App.Notify(TetrisAppNotification.OnDropClicked, this);
     }
 
+    /// <summary>
+    /// Alternate between the active state of the movement arrows and the rotation arrows
+    /// </summary>
     private void SetCanvasesActiveState()
     {
         movementCanvas.SetActive(_moveCanvasDisplayed);
