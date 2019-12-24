@@ -36,6 +36,11 @@ public class TetrisView : TetrisElement
     {
         playfieldView.SpawnNewBlock(blockToInstantiate, ghostBlock, position);
     }
+    
+    public void ShowPreview(PreviewBlockView preview)
+    {
+        PreviewView.Instance.ShowPreview(preview);
+    }
 
 
     public void MoveCurrentBlockInDirection(Vector3 moveDirection)
@@ -67,4 +72,10 @@ public class TetrisView : TetrisElement
     {
         playfieldView.SpeedDropCurrentBlock();
     }
+
+    public Vector3 GetPlayfieldPosition()
+    {
+        return playfieldView.transform.position;
+    }
+    
 }

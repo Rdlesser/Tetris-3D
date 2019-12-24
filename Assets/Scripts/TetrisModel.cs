@@ -16,9 +16,10 @@ public class TetrisModel : TetrisElement
     [Header("Tetris Blcok Config")]
     public TetrisBlockView[] tetrisBlocks;
 
-    public GhostBlockView[] tetrisBlockGhosts;
-
     public int[] blockWeights;
+
+    [Header("Preview Config")] 
+    public float previewRotationSpeed = 10.0f;
     
     private Transform[,,] _theGrid;
     
@@ -42,8 +43,7 @@ public class TetrisModel : TetrisElement
 
     private void OnValidate()
     {
-        if (tetrisBlocks.Length != tetrisBlockGhosts.Length ||
-            tetrisBlocks.Length != blockWeights.Length)
+        if (tetrisBlocks.Length != blockWeights.Length)
         {
             Debug.LogError("The length of tetris blocks, tetris block ghosts and block weights must match");
         }

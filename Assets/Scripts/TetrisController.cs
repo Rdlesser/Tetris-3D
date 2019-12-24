@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using Camera_scripts;
-using Playfield_scripts;
 using Tetris_Block_Scripts;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using Object = UnityEngine.Object;
 using Random = UnityEngine.Random;
 
@@ -15,9 +12,34 @@ public class TetrisController : TetrisElement
 
     [SerializeField] private CameraController cameraController;
 
+    private int _gridSizeX;
+    private int _gridSizeY;
+    private int _gridSizeZ;
+    
+    private TetrisBlockView[] _weightedBlockList;
+    private int _nextBlockIndex;
+
     private void Start()
     {
+        FirstPreperations();
+        CalculateNextBlock();
         SpawnNewBlock();
+    }
+
+    /// <summary>
+    /// Prepare the private fields 
+    /// </summary>
+    private void FirstPreperations()
+    {
+        // Locally save the grid size
+        _gridSizeX = App.model.gridSizeX;
+        _gridSizeY = App.model.gridSizeY;
+        _gridSizeZ = App.model.gridSizeZ;
+        
+        // Create a weighted block list to be used for spawning blocks
+        TetrisBlockView[] availableBlocks = App.model.tetrisBlocks;
+        int[] blockWeights = App.model.blockWeights;
+        _weightedBlockList = createWeightedBlockList(availableBlocks, blockWeights);
     }
 
     // Handles the lose condition
@@ -39,25 +61,29 @@ public class TetrisController : TetrisElement
     /// </summary>
     public void SpawnNewBlock()
     {
-        // Randomly choose a block to spawn according to our available blocks
-        TetrisBlockView[] availableBlocks = App.model.tetrisBlocks;
-        GhostBlockView[] ghostBlocks = App.model.tetrisBlockGhosts;
-        int[] blockWeights = App.model.blockWeights;
-        TetrisBlockView[] weightedBlockList = createWeightedBlockList(availableBlocks, blockWeights);
-        var position = transform.position;
+        
+        var position = App.view.GetPlayfieldPosition();
         // Choose the position of the block - top of the center field
-        Vector3 spawnPoint = new Vector3((int)(position.x + App.model.gridSizeX / 2.0f),
-                                         (int)(position.y + App.model.gridSizeY),
-                                         (int)(position.z + App.model.gridSizeZ / 2.0f));
+        Vector3 spawnPoint = new Vector3((int)(position.x + _gridSizeX / 2.0f),
+                                         (int)(position.y + _gridSizeY),
+                                         (int)(position.z + _gridSizeZ / 2.0f));
 
-        int randomIndex = Random.Range(0, weightedBlockList.Length);
+        
             
         // Spawn the block
-        App.view.SpawnNewBlock(weightedBlockList[randomIndex], weightedBlockList[randomIndex].GhostBlock, spawnPoint);
-        
-        // TODO: Create "Ghost" for the block
-        
-        // TODO: Set Inputs
+        App.view.SpawnNewBlock(_weightedBlockList[_nextBlockIndex], 
+                               _weightedBlockList[_nextBlockIndex].GhostBlock,
+                               spawnPoint);
+
+        // Calculate the next preview index
+        CalculateNextBlock();
+        App.view.ShowPreview(_weightedBlockList[_nextBlockIndex].Preview);
+
+    }
+
+    public void CalculateNextBlock()
+    {
+        _nextBlockIndex = Random.Range(0, _weightedBlockList.Length);
     }
 
     private TetrisBlockView[] createWeightedBlockList(TetrisBlockView[] blocks, int[] weights)
