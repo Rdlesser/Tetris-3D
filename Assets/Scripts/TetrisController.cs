@@ -21,7 +21,7 @@ public class TetrisController : TetrisElement
 
     private void Start()
     {
-        FirstPreperations();
+        FirstPreparations();
         CalculateNextBlock();
         SpawnNewBlock();
     }
@@ -29,7 +29,7 @@ public class TetrisController : TetrisElement
     /// <summary>
     /// Prepare the private fields 
     /// </summary>
-    private void FirstPreperations()
+    private void FirstPreparations()
     {
         // Locally save the grid size
         _gridSizeX = App.model.gridSizeX;
@@ -67,9 +67,7 @@ public class TetrisController : TetrisElement
         Vector3 spawnPoint = new Vector3((int)(position.x + _gridSizeX / 2.0f),
                                          (int)(position.y + _gridSizeY),
                                          (int)(position.z + _gridSizeZ / 2.0f));
-
         
-            
         // Spawn the block
         App.view.SpawnNewBlock(_weightedBlockList[_nextBlockIndex], 
                                _weightedBlockList[_nextBlockIndex].GhostBlock,
@@ -172,9 +170,8 @@ public class TetrisController : TetrisElement
                 if (target != null &&
                     target.GetType() == typeof(TetrisBlockView))
                 {
-                    TetrisBlockView tetrisBlock = (TetrisBlockView) target;
-                    DeleteLayersIfPossible(tetrisBlock);
-                    SpawnNewBlock();
+                    OnBlockDropped((TetrisBlockView) target);
+                    
                 }
                 break;
             
@@ -213,6 +210,14 @@ public class TetrisController : TetrisElement
         }
     }
 
+    private void OnBlockDropped(TetrisBlockView tetrisBlock)
+    {
+        App.model.AddToScore(10 * App.model.CurrentLevel);
+        DeleteLayersIfPossible(tetrisBlock);
+        App.view.UpdateUI();
+        SpawnNewBlock();
+    }
+
     private void DeleteLayersIfPossible(TetrisBlockView tetrisBlock)
     {
         List<int> markedLayers = MarkDeletionLayers(tetrisBlock);
@@ -230,6 +235,8 @@ public class TetrisController : TetrisElement
                 App.model.DropHigherLayers(markedLayer - dropCount);
                 dropCount++;
             }
+            
+            App.model.AddToCompleteLayers(markedLayers.Count);
             
         }
     }

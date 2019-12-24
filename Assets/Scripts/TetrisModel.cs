@@ -1,4 +1,5 @@
-﻿using Tetris_Block_Scripts;
+﻿using System;
+using Tetris_Block_Scripts;
 using UnityEngine;
 
 /// <summary>
@@ -14,19 +15,39 @@ public class TetrisModel : TetrisElement
     public int gridSizeZ = 7;
 
     [Header("Tetris Blcok Config")]
+    [Tooltip("Fall speed in seconds to drop. Must be at least 0.1")]
+    public float initialFallSpeed;
+    [Tooltip("Value between 0.01 and 0.99. Represents by how much the speed increases over time")]
+    public float increaseSpeedOverTime;
     public TetrisBlockView[] tetrisBlocks;
-
     public int[] blockWeights;
 
     [Header("Preview Config")] 
     public float previewRotationSpeed = 10.0f;
+
+    [Header("Scoring Config")] 
+    public int scorePerCompleteRow = 100;
     
+    
+    private int _score;
+    private int _currentLevel = 1;
+    private int _completeLayers;
+
+    public int Score => _score; 
+    public int CurrentLevel => _currentLevel;
+    public int CompleteLayers => _completeLayers;
+
+    public float CurrentFallSpeed => _currentFallSpeed;
+
     private Transform[,,] _theGrid;
+    private float _currentFallSpeed;
     
     private void Start()
     {
         // Create the grid representing the logical 3 dimensional array that is our playfield
         _theGrid = new Transform[gridSizeX, gridSizeY, gridSizeZ];
+
+        _currentFallSpeed = initialFallSpeed;
         
         // Null out the grid
         for (int x = 0; x < gridSizeX; x++)
@@ -45,12 +66,18 @@ public class TetrisModel : TetrisElement
     {
         if (tetrisBlocks.Length != blockWeights.Length)
         {
-            Debug.LogError("The length of tetris blocks, tetris block ghosts and block weights must match");
+            Debug.LogError("The length of tetris block list and block weights must match");
         }
         // When the grid size is changed by the inspector - notify the app that it has happened
         App.Notify(TetrisAppNotification.GridResized, this);
     }
-    
+
+    private void OnDrawGizmos()
+    {
+        initialFallSpeed = Mathf.Max(initialFallSpeed, 0.01f);
+        increaseSpeedOverTime = Mathf.Clamp(increaseSpeedOverTime, 0.01f, 1f);
+    }
+
     /// <summary>
     /// Remove the "tetrisBlock"'s child cubes from the grid
     /// </summary>
@@ -196,5 +223,23 @@ public class TetrisModel : TetrisElement
                 }
             }
         }
+    }
+
+    public void AddToScore(int amount)
+    {
+        _score += amount;
+        UpdateLevelAndSpeed();
+    }
+
+    public void AddToCompleteLayers(int amount)
+    {
+        _completeLayers += amount;
+        AddToScore((int)Mathf.Pow(2, amount - 1) * 100 * _currentLevel);
+    }
+
+    private void UpdateLevelAndSpeed()
+    {
+        _currentLevel = _score / 10000 + 1;
+        _currentFallSpeed = initialFallSpeed * Mathf.Pow(increaseSpeedOverTime, _currentLevel - 1);
     }
 }

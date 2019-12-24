@@ -77,5 +77,9 @@ public class TetrisView : TetrisElement
     {
         return playfieldView.transform.position;
     }
-    
+
+    public void UpdateUI()
+    {
+        UIHandler.Instance.UpdateUI();
+    }
 }

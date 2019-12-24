@@ -8,7 +8,7 @@ namespace Tetris_Block_Scripts
     {
 
         private float _previousFallTime;
-        private float _fallTime = 1.0f;
+        private float _fallTime;
         public Vector3 centerPoint;
 
         [SerializeField] private TetrisCubeView[] childCubes;
@@ -21,6 +21,7 @@ namespace Tetris_Block_Scripts
 
         private void Start()
         {
+            _fallTime = App.model.CurrentFallSpeed;
             App.Notify(TetrisAppNotification.OnBlockSpawned, this, transform);
             // ButtonInputsView.Instance.ClampToBlock(this);
         }
@@ -57,7 +58,7 @@ namespace Tetris_Block_Scripts
 
         public void SpeedDropBlock()
         {
-            _fallTime *= 0.1f;
+            _fallTime *= 0.01f;
         }
 
         public void MoveBlock(Vector3 direction)

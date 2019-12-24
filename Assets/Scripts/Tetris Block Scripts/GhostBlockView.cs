@@ -33,7 +33,7 @@ public class GhostBlockView : TetrisElement
 
             MoveDown();
 
-            yield return new WaitForSeconds(0.2f);
+            yield return new WaitForSeconds(0.1f);
         }
         Destroy(gameObject);
         yield return null;
