@@ -74,10 +74,6 @@ public class TetrisModel : TetrisElement
 
     private void OnValidate()
     {
-        if (tetrisBlocks.Length != blockWeights.Length)
-        {
-            Debug.LogError("The length of tetris block list and block weights must match");
-        }
         // When the grid size is changed by the inspector - notify the app that it has happened
         App.Notify(TetrisAppNotification.GridResized, this);
     }
@@ -181,9 +177,11 @@ public class TetrisModel : TetrisElement
                     }
                 }
             }
+
+            return true;
         }
 
-        return true;
+        return false;
     }
 
     /// <summary>
