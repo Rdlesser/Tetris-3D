@@ -7,11 +7,14 @@ public class PreviewBlockView : TetrisElement
 {
 
     // The speed in which to rotate the block
-    private float _rotationSpeed;
+    public float _rotationSpeed;
     
     private void Start()
     {
-        _rotationSpeed = App.model.previewRotationSpeed;
+        if (App != null)
+        {
+            _rotationSpeed = App.model.previewRotationSpeed;
+        }
     }
 
     // Update is called once per frame

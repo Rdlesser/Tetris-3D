@@ -1,7 +1,6 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 /// <summary>
@@ -43,5 +42,10 @@ public class UIHandler : TetrisElement
     public void ShowGameOverWindow()
     {
         gameOverWindow.SetActive(true);
+    }
+
+    public void OnGameOverButton(int sceneToLoad)
+    {
+        SceneManager.LoadScene(sceneToLoad);
     }
 }
