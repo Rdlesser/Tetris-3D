@@ -45,7 +45,8 @@ public class TetrisController : TetrisElement
     // Handles the lose condition
     public void OnGameOver()
     {
-        Debug.Log("Game Over!!!");
+        App.model.IsGameOver = true;
+        App.view.ShowGameOverWindow();
     }
 
     /// <summary>
@@ -207,6 +208,10 @@ public class TetrisController : TetrisElement
             case TetrisAppNotification.OnDropClicked:
                 SpeedDropCurrentBlock();
                 break;
+                
+            case TetrisAppNotification.OnBlockBlocked:
+                OnGameOver();
+                break;
         }
     }
 
@@ -215,7 +220,10 @@ public class TetrisController : TetrisElement
         App.model.AddToScore(10 * App.model.CurrentLevel);
         DeleteLayersIfPossible(tetrisBlock);
         App.view.UpdateUI();
-        SpawnNewBlock();
+        if (!App.model.IsGameOver)
+        {
+            SpawnNewBlock();
+        }
     }
 
     private void DeleteLayersIfPossible(TetrisBlockView tetrisBlock)

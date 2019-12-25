@@ -15,6 +15,8 @@ public class UIHandler : TetrisElement
     [SerializeField] private Text scoreText;
     [SerializeField] private Text levelText;
     [SerializeField] private Text layersText;
+    [SerializeField] private GameObject gameOverWindow;
+    
     
     // Start is called before the first frame update
     void Awake()
@@ -25,6 +27,7 @@ public class UIHandler : TetrisElement
     private void Start()
     {
         UpdateUI();
+        gameOverWindow.SetActive(false);
     }
 
     /// <summary>
@@ -35,5 +38,10 @@ public class UIHandler : TetrisElement
         scoreText.text = "Score: " + App.model.Score.ToString("D9");
         levelText.text = "Level: " + App.model.CurrentLevel.ToString("D4");
         layersText.text = "Layers: " + App.model.CompleteLayers.ToString("D9");
+    }
+
+    public void ShowGameOverWindow()
+    {
+        gameOverWindow.SetActive(true);
     }
 }

@@ -11,6 +11,7 @@ public enum TetrisAppNotification
     OnRotateBlockClicked,
     OnSwitchDisplayClicked,
     PrepareMove,
+    OnBlockBlocked
 }
 
 public enum TetrisMoveDirections

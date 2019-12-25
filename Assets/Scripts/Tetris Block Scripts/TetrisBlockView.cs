@@ -23,6 +23,10 @@ namespace Tetris_Block_Scripts
         {
             _fallTime = App.model.CurrentFallSpeed;
             App.Notify(TetrisAppNotification.OnBlockSpawned, this, transform);
+            if (!IsValidMove(Vector3.down))
+            {
+                App.Notify(TetrisAppNotification.OnBlockBlocked, this);
+            }
         }
 
 

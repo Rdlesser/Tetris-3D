@@ -82,4 +82,9 @@ public class TetrisView : TetrisElement
     {
         UIHandler.Instance.UpdateUI();
     }
+
+    public void ShowGameOverWindow()
+    {
+        UIHandler.Instance.ShowGameOverWindow();
+    }
 }

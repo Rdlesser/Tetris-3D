@@ -9,7 +9,7 @@ public class TetrisModel : TetrisElement
 {
 
     [Header("Grid Size Config")]
-    // Data
+    // Grid Size
     public int gridSizeX = 7;
     public int gridSizeY = 10;
     public int gridSizeZ = 7;
@@ -29,19 +29,29 @@ public class TetrisModel : TetrisElement
     public int scorePerCompleteRow = 100;
     
     
+    // Private Data
     private int _score;
-    private int _currentLevel = 1;
-    private int _completeLayers;
-
     public int Score => _score; 
+    
+    private int _currentLevel = 1;
     public int CurrentLevel => _currentLevel;
+    
+    private int _completeLayers;
     public int CompleteLayers => _completeLayers;
 
+
+    private float _currentFallSpeed;
     public float CurrentFallSpeed => _currentFallSpeed;
 
     private Transform[,,] _theGrid;
-    private float _currentFallSpeed;
-    
+
+    private bool _isGameOver;
+    public bool IsGameOver
+    {
+        get => _isGameOver;
+        set => _isGameOver = value;
+    }
+
     private void Start()
     {
         // Create the grid representing the logical 3 dimensional array that is our playfield
@@ -159,13 +169,16 @@ public class TetrisModel : TetrisElement
     /// <returns>weather or not the layer is full </returns>
     public bool IsLayerFull(int y)
     {
-        for (int x = 0; x < gridSizeX; x++)
+        if (y < gridSizeY)
         {
-            for (int z = 0; z < gridSizeZ; z++)
+            for (int x = 0; x < gridSizeX; x++)
             {
-                if (_theGrid[x, y, z] == null)
+                for (int z = 0; z < gridSizeZ; z++)
                 {
-                    return false;
+                    if (_theGrid[x, y, z] == null)
+                    {
+                        return false;
+                    }
                 }
             }
         }
@@ -179,13 +192,16 @@ public class TetrisModel : TetrisElement
     /// <param name="y"> The layer to be deleted </param>
     public void DeleteLayer(int y)
     {
-        for (int x = 0; x < gridSizeX; x++)
+        if (y < gridSizeY)
         {
-            for (int z = 0; z < gridSizeZ; z++)
+            for (int x = 0; x < gridSizeX; x++)
             {
-                // Destroy the gameObject and nullify the position
-                Destroy(_theGrid[x, y, z].gameObject);
-                _theGrid[x, y, z] = null;
+                for (int z = 0; z < gridSizeZ; z++)
+                {
+                    // Destroy the gameObject and nullify the position
+                    Destroy(_theGrid[x, y, z].gameObject);
+                    _theGrid[x, y, z] = null;
+                }
             }
         }
     }
