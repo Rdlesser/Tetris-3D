@@ -12,7 +12,7 @@ public class TetrisView : TetrisElement
     
     public void OnGridSizeChanged()
     {
-        SceneView.RepaintAll();
+        // SceneView.RepaintAll();
     }
 
     private void Update()
