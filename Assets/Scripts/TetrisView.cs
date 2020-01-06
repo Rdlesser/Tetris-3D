@@ -1,5 +1,4 @@
-﻿using System;
-using Playfield_scripts;
+﻿using Playfield_scripts;
 using Tetris_Block_Scripts;
 using UnityEditor;
 using UnityEngine;
@@ -12,7 +11,7 @@ public class TetrisView : TetrisElement
     
     public void OnGridSizeChanged()
     {
-        SceneView.RepaintAll();
+        // SceneView.RepaintAll();
     }
 
     private void Update()
