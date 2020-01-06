@@ -151,14 +151,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 342015a25df6c41ad9d792a7df80282a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-<<<<<<< HEAD
-<<<<<<< HEAD
-  _rotationSpeed: 100
-=======
-  _rotationSpeed: 0
->>>>>>> Pushing all the missing meta files
-=======
->>>>>>> temp
 --- !u!1 &6793366664834174424
 GameObject:
   m_ObjectHideFlags: 0
